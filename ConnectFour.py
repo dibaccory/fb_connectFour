@@ -22,10 +22,6 @@ def discs_dropped(game_state):
 def get_current_player(game_state):
     if is_state_valid(game_state):
         return opponent_color_of(first_player) if discs_dropped(game_state)%2 else first_player
-        #if moves_made:
-        #    return opponent_color_of(first_player) if len(moves_made)%2 else first_player
-        #else:
-        #    return first_player
     else:
         print(msg[0]) #invalid state
 
@@ -75,7 +71,6 @@ def play(game_state, column, color):
                 r -= 1
             if r>=0: #check if column full
                  game_state[r][column] = color;
-                 #moves_made.append({color: color, col: column})
                  if has_winner(game_state):
                      print(msg[1], *game_state, sep='\n') #winner!
                      return
@@ -87,12 +82,6 @@ def play(game_state, column, color):
         print(msg[0]) #invalid state
     return game_state
 
-
-#moves_made = [] #Keeps track of all moves made with {color: '', col: int}
-#Can be used to record history, add computer player, announce to other player, etc.
-#However, it is dependent on initialization and may cause issues in functions where it's
-#referenced if those functions are called individually, rather than in the main function below.
-#In this case, we will not use it.
 game_state = [[None] * 7 for _ in range(6)]
 first_player = "y"
 msg = [

@@ -92,11 +92,12 @@ def play(game_state, column, color):
     else:
         return msg[0] #invalid state
 
+    integrity_asserted = False
 
 
 game_state = [[None] * 7 for _ in range(6)]
 first_player = 'y'
-global integrity_asserted# = False
+global integrity_asserted
 msg = [
 "ERROR: Invalid game state.",
 "We have a winner!",
@@ -110,13 +111,12 @@ msg = [
 ]
 
 if __name__ == '__main__':
-    global integrity_asserted
-    moves_left = 42 #instead of calling discs_dropped 42 times
-    while game_state: #while condition can be replaced with len(moves_made) <42
+    integrity_asserted = False
+    moves_left = 42        #instead of calling discs_dropped 42 times
+    while True:
         if not moves_left:
             print(msg[2])
             break
-
         valid_col = False
         while not valid_col:
             try:
@@ -129,17 +129,17 @@ if __name__ == '__main__':
             except IndexError:
                 print(msg[5])
 
-        integrity_asserted = False
         res = play(game_state, col, get_current_player(game_state))
         if type(res) is str:
             print(res)
-        elif not integrity_asserted:
-            break
+            if res == msg[0]:
+                print("Ending game...")
+                sys.exit()
         else:
             moves_left -= 1
-            
+
         if has_winner(game_state):
             print(msg[1], *game_state, sep='\n') #winner!
             break
-    print("Ending game...")
+    print("Goodbye!")
     sys.exit()

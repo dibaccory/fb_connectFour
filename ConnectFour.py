@@ -1,12 +1,13 @@
 import sys
 #Ensure that each column is properly stacked
-#Only '', 'r', 'y' are acceptable entries
+#Only None, 'r', 'y' are acceptable entries
 def is_state_valid(game_state):
     for c in range(7):
         top_col = False
         for r in range(6):
             if game_state[r][c] == "r" or game_state[r][c] == "y":
                 top_col = True
+            elif game_state[r][c]: #something other than 'r' or 'y'
                 return False
             elif top_col: #if there is a gap within a column
                 return False
@@ -90,7 +91,7 @@ def play(game_state, column, color):
 #moves_made = [] #Keeps track of all moves made with {color: '', col: int}
 #Can be used to record history, add computer player, announce to other player, etc.
 #However, it is dependent on initialization and may cause issues in functions where it's
-#referenced if those functions are called individually, rather than the main function below.
+#referenced if those functions are called individually, rather than in the main function below.
 #In this case, we will not use it.
 game_state = [[None] * 7 for _ in range(6)]
 first_player = "y"
@@ -109,14 +110,14 @@ msg = [
 if __name__ == '__main__':
     moves_left = 42 #instead of calling discs_dropped 42 times
     while game_state: #while condition can be replaced with len(moves_made) <42
-    if not moves_left:
-        print(msg[2])
-        break
+        if not moves_left:
+            print(msg[2])
+            break
 
-        print(*game_state, sep='\n')
         valid_col = False
         while not valid_col:
             try:
+                print(*game_state, sep='\n')
                 col = int(input("Pick a column (0-6)\n"))
                 game_state[0][col]
                 valid_col = True
